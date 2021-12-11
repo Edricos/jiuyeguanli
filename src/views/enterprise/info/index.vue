@@ -29,20 +29,6 @@
                 <el-input type="textarea" v-model="form.bl"></el-input>
             </el-form-item>
 
-<!--            <el-form-item label="营业执照">-->
-<!--                <el-upload-->
-<!--                    class="avatar-uploader"-->
-<!--                    multiple="true"-->
-<!--                    action="https://jsonplaceholder.typicode.com/posts/"-->
-<!--                    :show-file-list="false"-->
-<!--                    :on-success="handleAvatarSuccess"-->
-<!--                    :before-upload="beforeAvatarUpload">-->
-<!--                <img v-if="imageUrl" :src="imageUrl" class="avatar">-->
-<!--                <i v-else class="el-icon-plus avatar-uploader-icon"></i>-->
-<!--            </el-upload>-->
-<!--            </el-form-item>-->
-
-
             <el-form-item label="审核记录">
                 <el-input type="textarea" v-on="form.note"></el-input>
             </el-form-item>

@@ -37,33 +37,16 @@
         </el-menu-item>
 
         <!--        老师导航栏-->
-        <el-submenu index="4" style="float:right;">
-            <template slot="title">老师</template>
-            <el-menu-item index="4-1">选项1</el-menu-item>
-            <el-menu-item index="4-2">选项2</el-menu-item>
-            <el-menu-item index="4-3">选项3</el-menu-item>
-            <el-menu-item index="4-4">选项4</el-menu-item>
-        </el-submenu>
-
-        <!--        雇主导航栏-->
-        <el-submenu index="3" style="float:right;">
-            <template slot="title">雇主</template>
-            <el-menu-item index="3-1">选项1</el-menu-item>
-            <el-menu-item index="3-2">选项2</el-menu-item>
-            <el-menu-item index="3-3">选项3</el-menu-item>
-            <el-menu-item index="3-4">选项4</el-menu-item>
-        </el-submenu>
-
-        <!--        学生导航栏-->
-        <el-submenu index="2" style="float:right;">
-            <template slot="title">学生</template>
-            <el-menu-item index="2-1">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
-            <el-menu-item index="2-3">选项3</el-menu-item>
-            <el-menu-item index="2-4">选项4</el-menu-item>
-        </el-submenu>
-
-        <el-menu-item index="1" style="float:right;">首页</el-menu-item>
+        <el-menu-item @click="login" index="4" style="float:right;">
+            老师
+        </el-menu-item>
+        <el-menu-item @click="login" index="" style="float:right;">
+            企业
+        </el-menu-item><el-menu-item @click="login" index="2" style="float:right;">
+        学生
+    </el-menu-item><el-menu-item @click="logins" index="1" style="float:right;">
+        首页
+    </el-menu-item>
 
     </el-menu>
   </div>
@@ -84,6 +67,10 @@
       },
         login(){
           this.$router.push('/login')
+            // window.location = "http://47.100.38.130:8082/toLogin";
+        },
+        logins(){
+            window.location.reload();
             // window.location = "http://47.100.38.130:8082/toLogin";
         }
     }

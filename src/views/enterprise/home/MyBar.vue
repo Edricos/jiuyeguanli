@@ -25,7 +25,7 @@
             let option = {
                 //    标题
                 title:{
-                        text:'用户月增长'
+                        text:'月浏览量增长'
                 },
                 color: ['red','blue'],
                 tooltip : {
@@ -35,9 +35,9 @@
                     }
                 },
                 //
-                legend: {
-                    data:['月增长']
-                },
+                // legend: {
+                //     data:['月增长']
+                // },
                 // toolbox: {
                 //         feature: {
                 //                 //下载为图片

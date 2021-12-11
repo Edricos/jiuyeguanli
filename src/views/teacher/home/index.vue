@@ -33,37 +33,39 @@
         <!-- 右侧 -->
         <el-col :span="16" style="margin-top: 20px;margin-left: 0px;">
 
-            <el-collapse v-model="activeNames" @change="handleChange">
+            <el-collapse v-model="activeNames" @change="handleChange" accordion>
                 <el-card>
-                    <el-collapse-item title="单位" name="1" class="cards">
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
+                    <div>
+                        <el-collapse-item title="单位" name="1" class="cards">
+                            <div class="items">4777<br>总单位数</div>
+                            <div class="items">785<br>本年度单位数</div>
+                            <div class="items">4777<br>本年度岗位需求数</div>
+                            <div class="items">500<br>本年度宣讲会数量</div>
+                        </el-collapse-item>
+                    </div>
 
-                </el-collapse-item>
                 </el-card>
                 <el-card>
                     <el-collapse-item title="学生" name="2" class="cards">
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
-                    <div class="items">4777<br>总单位数</div>
+                        <div class="items">4491<br>毕业人数</div>
+                        <div class="items">4448<br>激活人数</div>
+                        <div class="items">4139<br>微信绑定人数</div>
+                        <div class="items">3684<br>简历完成人数</div>
 
                 </el-collapse-item>
                 </el-card>
                 <el-card>
                     <el-collapse-item title="代办事项" name="3" class="cards">
-                    <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                    <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
-                    <div>用户决策：根据场景可给予用户操作建议或安全提示，但不能代替用户进行决策；</div>
-                    <div>结果可控：用户可以自由的进行操作，包括撤销、回退和终止当前操作等。</div>
+                        <div class="items">4<br><a href="http://localhost:8080/#/teacher/enterprise">单位审核</a></div>
+                        <div class="items">3<br><a href="http://localhost:8080/#/teacher/recruit">招聘发布</a></div>
+                        <div class="items">6<br><a href="http://localhost:8080/#/teacher/preach">宣讲审核</a></div>
+                        <div class="items">8<br><a href="#">入校审批</a></div>
 
                 </el-collapse-item>
                 </el-card>
             </el-collapse>
             <!-- 线性图表 -->
-            <el-card shadow="hover" style="height: 312px">
+            <el-card shadow="hover" style="height: 312px;margin-top:20px ">
                 <MyBar></MyBar>
             </el-card>
         </el-col>

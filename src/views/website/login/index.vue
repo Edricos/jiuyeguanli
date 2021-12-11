@@ -56,6 +56,7 @@
                                             maxlength="4"
                                             placeholder='请输入验证码'
                                             prefix-icon="el-icon-position"
+                                            v-model="ruleForm.code"
                                             clearable
                                             autocomplete="off"
                                     ></el-input>
@@ -103,8 +104,9 @@ export default {
               loading: false,
           },
           ruleForm: {
-              username: 'qiye',
-              password: '123',
+              username: '',
+              password: '',
+              code:''
           },
           // code: '1234',
           time: {
@@ -128,26 +130,29 @@ export default {
         // 登录按钮点击
          submitForm() {
             const this_=this
-             const account=post('/user/login',this.ruleForm)
-             account.then(
-                 function (res){
-                     if(res.classs=='undefined'){
-                         alert("信息错误")
-                         this_.$router.push("/login")
+             if(this.ruleForm.code=='1234')
+             {
+                 const account=post('/user/login',this.ruleForm)
+                 account.then(
+                     function (res){
+                         if(res.classs=='undefined'){
+                             alert("信息错误")
+                             this_.$router.push("/login")
+                         }
+                         else if(res.classs=='inc'){
+                             this_.$router.push("/enterprise")
+                         }else if(res.classs=='admin'){
+                             this_.$router.push("/teacher")
+                         }else if(res.classs=='stu'){
+                             this_.$router.push("/student")
+                         }else {
+                             alert("信息错误")
+                             this_.$router.push("/login")
+                         }
+                         // console.log(res)
                      }
-                     else if(res.classs=='inc'){
-                         this_.$router.push("/enterprise")
-                     }else if(res.classs=='admin'){
-                         this_.$router.push("/teacher")
-                     }else if(res.classs=='stu'){
-                         this_.$router.push("/student")
-                     }else {
-                         alert("信息错误")
-                         this_.$router.push("/login")
-                     }
-                     // console.log(res)
-                 }
-             )
+                 )
+             }
         },
 
 

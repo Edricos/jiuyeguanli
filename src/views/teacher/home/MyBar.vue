@@ -35,9 +35,9 @@
                     }
                 },
                 //
-                legend: {
-                    data:['月增长']
-                },
+                // legend: {
+                //     data:['月增长']
+                // },
                 // toolbox: {
                 //         feature: {
                 //                 //下载为图片
