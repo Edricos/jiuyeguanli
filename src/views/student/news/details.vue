@@ -1,7 +1,7 @@
 <template>
     <div class="main">
 <!--        标题-->
-        <div style="margin: 0 auto;text-align: center;"><h3>{{form.title}}</h3></div>
+        <div style="margin: 0 auto;text-align: center;"><h2>{{form.title}}</h2></div>
 <!--        文件信息-->
         <div style="margin: 0 auto;text-align: center;width: 50%;float: right">
             <div style="float: left">
@@ -19,9 +19,9 @@
         <br>
         <br>
         <div style="width: 80%;margin: 0 auto">
-            <p>
+            <pre style="white-space: pre-wrap; word-wrap: break-word; font-size: large">
                 {{form.content}}
-            </p>
+            </pre>
         </div>
         <br>
         <br>
