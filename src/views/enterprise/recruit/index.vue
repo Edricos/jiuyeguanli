@@ -65,7 +65,6 @@
                     time2:'',           //默认上午
                     envoyid:'',       //校园大使
                     intro: '',       //招聘简章
-                    comid:10,
                 },
                 submit:'提交申请',
                 changeId:{

@@ -19,7 +19,8 @@ const staticRoutes = [
         name: 'main',
         component: () => import('@/views/website/home/'),
         meta: {
-            title: '官网',
+            // title: '',
+            requireAuth:false
         },
     },
     {
@@ -28,6 +29,7 @@ const staticRoutes = [
         component: () => import('@/views/website/login/'),
         meta: {
             title: '登录',
+            requireAuth:false
         },
     },
     {
@@ -35,7 +37,8 @@ const staticRoutes = [
         name: 'register',
         component: () => import('@/views/website/register/'),
         meta: {
-            title: '登录',
+            title: '注册',
+            requireAuth:false
         },
     },
     {
@@ -44,6 +47,7 @@ const staticRoutes = [
         component: () => import('@/views/enterprise/layout/'),
         meta: {
             title: '首页',
+            requireAuth:true
         },
         children:[
             {
@@ -52,6 +56,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/home/'),
                 meta: {
                     title: '首页',
+                    requireAuth:true
                 }
             },
             {
@@ -60,6 +65,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/info/'),
                 meta: {
                     title: '单位信息',
+                    requireAuth:true
                 },
             },
             {
@@ -68,6 +74,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/recruit/'),
                 meta: {
                     title: '招聘发布',
+                    requireAuth:true
                 }
             },
             {
@@ -76,6 +83,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/history/'),
                 meta: {
                     title: '招聘历史',
+                    requireAuth:true
                 }
             },
             {
@@ -84,6 +92,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/resume/'),
                 meta: {
                     title: '简历',
+                    requireAuth:true
                 }
             },
             {
@@ -92,6 +101,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/resume/details'),
                 meta: {
                     title: '简历',
+                    requireAuth:true
                 }
             },
             {
@@ -100,6 +110,7 @@ const staticRoutes = [
                 component: () => import('@/views/enterprise/result/'),
                 meta: {
                     title: '录取结果',
+                    requireAuth:true
                 }
             },
 
@@ -111,6 +122,7 @@ const staticRoutes = [
         component: () => import('@/views/teacher/layout/'),
         meta: {
             title: '首页',
+            requireAuth:true
         },
         children:[
             {
@@ -119,6 +131,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/home/'),
                 meta: {
                     title: '首页',
+                    requireAuth:true
                 }
             },
             {
@@ -127,6 +140,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/enterprise/'),
                 meta: {
                     title: '单位审核',
+                    requireAuth:true
                 },
             },
             {
@@ -135,6 +149,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/enterprise/details'),
                 meta: {
                     title: '单位信息',
+                    requireAuth:true
                 },
             },
             {
@@ -143,6 +158,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/news/'),
                 meta: {
                     title: '热点新闻',
+                    requireAuth:true
                 }
             },
             {
@@ -151,6 +167,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/news/addNews'),
                 meta: {
                     title: '热点新闻',
+                    requireAuth:true
                 },
             },
             {
@@ -159,6 +176,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/news/details'),
                 meta: {
                     title: '热点新闻',
+                    requireAuth:true
                 },
             },
             {
@@ -167,6 +185,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/announcement/'),
                 meta: {
                     title: '公告发布',
+                    requireAuth:true
                 }
             },
             {
@@ -175,6 +194,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/announcement/addNews'),
                 meta: {
                     title: '公告发布',
+                    requireAuth:true
                 },
             },
             {
@@ -183,6 +203,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/announcement/details'),
                 meta: {
                     title: '公告发布',
+                    requireAuth:true
                 },
             },
             {
@@ -191,6 +212,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/recruit/'),
                 meta: {
                     title: '招聘发布',
+                    requireAuth:true
                 }
             },
             {
@@ -199,6 +221,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/recruit/details'),
                 meta: {
                     title: '招聘详情',
+                    requireAuth:true
                 }
             },
             {
@@ -207,6 +230,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/preach/'),
                 meta: {
                     title: '宣讲发布',
+                    requireAuth:true
                 }
             },
             {
@@ -215,6 +239,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/jobFair/'),
                 meta: {
                     title: '招聘会发布',
+                    requireAuth:true
                 }
             },
             {
@@ -223,6 +248,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/sign/'),
                 meta: {
                     title: '签约信息',
+                    requireAuth:true
                 }
             },
             {
@@ -231,6 +257,7 @@ const staticRoutes = [
                 component: () => import('@/views/teacher/receipt/'),
                 meta: {
                     title: '入校审批',
+                    requireAuth:true
                 }
             },
         ]
@@ -241,6 +268,7 @@ const staticRoutes = [
         component: () => import('@/views/student/layout/'),
         meta: {
             title: '首页',
+            requireAuth:true
         },
         children: [
             {
@@ -249,6 +277,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/home/'),
                 meta: {
                     title: '首页',
+                    requireAuth:true
                 },
             },
             {
@@ -257,6 +286,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/info/'),
                 meta: {
                     title: '个人信息',
+                    requireAuth:true
                 },
             },
             {
@@ -265,6 +295,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/history/'),
                 meta: {
                     title: '预约记录',
+                    requireAuth:true
                 },
             },
             {
@@ -273,6 +304,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/announcement/'),
                 meta: {
                     title: '通知公告',
+                    requireAuth:true
                 },
             },
             {
@@ -281,6 +313,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/announcement/details'),
                 meta: {
                     title: '通知公告',
+                    requireAuth:true
                 },
             },
             {
@@ -289,6 +322,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/news/'),
                 meta: {
                     title: '热点新闻',
+                    requireAuth:true
                 },
             },
             {
@@ -297,6 +331,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/news/details'),
                 meta: {
                     title: '热点新闻',
+                    requireAuth:true
                 },
             },
             {
@@ -305,6 +340,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/preach/'),
                 meta: {
                     title: '宣讲信息',
+                    requireAuth:true
                 },
             },
             {
@@ -313,6 +349,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/recruit/'),
                 meta: {
                     title: '招聘信息',
+                    requireAuth:true
                 },
             },
             {
@@ -321,6 +358,7 @@ const staticRoutes = [
                 component: () => import('@/views/student/recruit/details'),
                 meta: {
                     title: '招聘信息',
+                    requireAuth:true
                 },
             },
         ]
@@ -353,6 +391,7 @@ const staticRoutes = [
     //     },
     // },
 ];
+
 
 // 加载静态路由
 const createRouter = () =>

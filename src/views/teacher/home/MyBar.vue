@@ -20,7 +20,7 @@
             return {}
         },
         mounted() {
-            // let this_ = this;
+            let this_ = this;
             let myChart = echarts.init(document.getElementById('bar_example'));
             let option = {
                 //    标题
@@ -34,16 +34,7 @@
                         type : 'shadow'
                     }
                 },
-                //
-                // legend: {
-                //     data:['月增长']
-                // },
-                // toolbox: {
-                //         feature: {
-                //                 //下载为图片
-                //                 saveAsImage: {}
-                //         }
-                // },
+
                 xAxis : [
                     {
                         type : 'category',
@@ -69,7 +60,6 @@
                 ]
             };
             myChart.setOption(option);
-
             //当我们浏览器缩放的时候，图表也等比例缩放
             window.addEventListener('resize',function() {myChart.resize()});
         },

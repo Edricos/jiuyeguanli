@@ -10,7 +10,7 @@
             @select="handleSelect"
     >
 
-        <el-menu-item  index="0" style="width:340px;font-size:21px;letter-spacing:5px; text-align:left;">
+        <el-menu-item  @click="home" index="0" style="width:340px;font-size:21px;letter-spacing:5px; text-align:left;">
             <img :src="logo" class="user" />
             大学生就业服务协会
         </el-menu-item>
@@ -77,6 +77,7 @@
         },
         home(){
             this.$router.push('/student')
+            window.location.reload();
         },
         preach(){
             this.$router.push('/student/preach')

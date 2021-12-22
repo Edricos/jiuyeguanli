@@ -10,7 +10,7 @@
             @select="handleSelect"
     >
 
-        <el-menu-item index="0" style="width:340px;font-size:21px;letter-spacing:5px; text-align:left;">
+        <el-menu-item index="0" @click="refresh" style="width:340px;font-size:21px;letter-spacing:5px; text-align:left;">
             <img :src="logo" class="user" />
             大学生就业服务协会
         </el-menu-item>
@@ -44,7 +44,7 @@
             企业
         </el-menu-item><el-menu-item @click="login" index="2" style="float:right;">
         学生
-    </el-menu-item><el-menu-item @click="logins" index="1" style="float:right;">
+    </el-menu-item><el-menu-item @click="refresh" index="1" style="float:right;">
         首页
     </el-menu-item>
 
@@ -69,9 +69,8 @@
           this.$router.push('/login')
             // window.location = "http://47.100.38.130:8082/toLogin";
         },
-        logins(){
+        refresh(){
             window.location.reload();
-            // window.location = "http://47.100.38.130:8082/toLogin";
         }
     }
   }

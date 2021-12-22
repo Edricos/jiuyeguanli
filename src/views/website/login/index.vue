@@ -48,7 +48,7 @@
                             >
                             </el-input>
                         </el-form-item>
-                        <el-form-item style="margin-left: 0px" prop="code">
+                        <el-form-item style="margin-left: 0px;margin-bottom: 0px;" prop="code">
                             <div class="el-row" span="24">
                                 <div class="el-col el-col-16">
                                     <el-input
@@ -61,14 +61,22 @@
                                             autocomplete="off"
                                     ></el-input>
                                 </div>
+<!--                                验证码-->
                                 <div class="el-col el-col-8">
-                                    <div class="login-code">
-                                        <span class="login-code-img">1234</span>
+                                    <div class="login-code" @click="refreshCode">
+                                        <SIdentify :identifyCode="identifyCode" class="login-code-img"></SIdentify>
                                     </div>
                                 </div>
                             </div>
+                            <div style="padding: 0;margin: 0;font-size: 3px;height:10px;line-height:10px">
+                                <p v-show="showCode" style="color: red">验证码有误</p>
+                            </div>
                         </el-form-item>
-                        <el-form-item style="margin: 40px 0px 0">
+
+                        <el-form-item style="margin: 20px 0px 0">
+                            <div style="padding: 0;margin-bottom: 3px;font-size: 3px;height:10px;line-height:10px">
+                                <p v-show="showError" style="color: red">用户名或密码错误！</p>
+                            </div>
                             <el-button type="primary" class="login-submit" @click="submitForm" :loading="submit.loading">
                                 <span>登 录</span>
                             </el-button>
@@ -93,13 +101,23 @@
 import { formatDate } from '@/utils/formatTime';
 import { quotationsList } from './mock';
 import {post} from "../../../utils/request";
+import SIdentify from "@/utils/identify";   //验证码组件
+import { mapMutations } from 'vuex';        //处理token
 
 export default {
-  name: 'Login',
+    name: 'Login',
+    components: {
+        SIdentify: SIdentify
+    },
     data() {
       return{
+          userToken:'',         //存储token
+          showCode:false,       //展示验证码错误
+          showError:false,
           quotationsList,
           quotations: {},
+          identifyCode:"",      //真实验证码
+          identifyCodes:'abcdefghijklnmopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',     //验证码库
           submit: {
               loading: false,
           },
@@ -108,7 +126,6 @@ export default {
               password: '',
               code:''
           },
-          // code: '1234',
           time: {
               txt: '',
               fun: null,
@@ -116,6 +133,8 @@ export default {
       }
     },
     methods: {
+        //添加token方法
+        ...mapMutations(['changeLoginStudent','changeLoginTeacher','changeLoginEnterprise']),
         // 随机语录
         initRandomQuotations() {
             this.quotations = this.quotationsList[Math.floor(Math.random() * this.quotationsList.length)];
@@ -129,36 +148,66 @@ export default {
         },
         // 登录按钮点击
          submitForm() {
+            //验证验证码是否正确
+            if(this.identifyCode.toUpperCase()!=this.ruleForm.code.toUpperCase()){
+                this.showCode=true
+                return
+            }else {
+                this.showCode=false
+            }
+            // 提交表单数据
             const this_=this
-             if(this.ruleForm.code=='1234')
-             {
-                 const account=post('/user/login',this.ruleForm)
-                 account.then(
-                     function (res){
-                         if(res.classs=='undefined'){
-                             alert("信息错误")
-                             this_.$router.push("/login")
-                         }
-                         else if(res.classs=='inc'){
-                             this_.$router.push("/enterprise")
-                         }else if(res.classs=='admin'){
-                             this_.$router.push("/teacher")
-                         }else if(res.classs=='stu'){
-                             this_.$router.push("/student")
-                         }else {
-                             alert("信息错误")
-                             this_.$router.push("/login")
-                         }
-                         // console.log(res)
+             const account=post('/user/login',this.ruleForm)
+             account.then(
+                 function (res){
+                     // this_.userToken = 'Bearer ' + res.data.data.body.token;
+                     // // 将用户token保存到vuex中
+                     // this_.changeLogin({ Authorization: this_.userToken });
+
+
+                     if(res.account.classs=='inc'){
+                         console.log('企业端')
+                         this_.userToken=res.token
+                         this_.changeLoginEnterprise({ AuthorizationEnterprise: this_.userToken });
+                         this_.$router.push("/enterprise")
+                     }else if(res.account.classs=='admin'){
+                         console.log('教师端')
+                         this_.userToken=res.token
+                         this_.changeLoginTeacher({ AuthorizationTeacher: this_.userToken });
+                         this_.$router.push("/teacher")
+                     }else if(res.account.classs=='stu'){
+                         console.log('学生端')
+                         this_.userToken=res.token
+                         this_.changeLoginStudent({ AuthorizationStudent: this_.userToken });
+                         this_.$router.push("/student")
+                     }else {
+                         console.log('账号密码错误')
+                         this_.showError=true
+                         return
                      }
-                 )
-             }
+                 }
+             )
+
         },
-
-
+        //注册
         registers(){
             this.$router.push('/register')
-        }
+        },
+        //验证码
+        randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        },
+        refreshCode() {
+            this.identifyCode = "";
+            this.makeCode(this.identifyCodes, 4);
+        },
+        makeCode(o, l) {
+            for (let i = 0; i < l; i++) {
+                this.identifyCode += this.identifyCodes[
+                    this.randomNum(0, this.identifyCodes.length)
+                    ];
+            }
+        },
     },
 
     created() {
@@ -166,6 +215,9 @@ export default {
     },
     mounted() {
         this.initRandomQuotations();
+        //验证码
+        this.identifyCode = "";
+        this.makeCode(this.identifyCodes, 4);
     },
     destroyed() {
         clearInterval(this.time.fun);

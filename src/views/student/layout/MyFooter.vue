@@ -4,7 +4,7 @@
             <b>Version</b> 1.0.1
         </div>
         <strong>Copyright &copy; 2021-2022
-            <a>研究院研发部</a>.
+            <a>梦想启航团队</a>.
         </strong>
 <!--        All rights reserved.-->
     </div>
