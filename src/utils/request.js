@@ -40,7 +40,7 @@ axios.defaults.baseURL = 'http://localhost:8091';
 axios.defaults.timeout = 10000;
 
 // post请求头
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+// axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
 
 //前置路由守卫 可判断token
 router.beforeEach((to, from, next) => {
@@ -89,8 +89,10 @@ axios.interceptors.request.use(
         // Authorization
         if (store.state.Authorization) {
 
-            config.headers.Authorization = store.state.Authorization;
-            store.state.Authorization=''
+            config.headers['token'] =store.state.Authorization
+            config.withCredentials=true;
+                // config.headers.Authorization = store.state.Authorization;
+            // store.state.Authorization=''
         }
 
         return config;
