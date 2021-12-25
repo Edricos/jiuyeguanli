@@ -7,26 +7,14 @@
                     <!--                    标题-->
                     <h4 class="login-title">用人单位注册</h4>
                     <!--                    表单-->
-                    <el-form class="el-form login-form">
-<!--                        用户名-->
-                        <el-form-item style="margin-left: 0px" prop="userName">
-                            <el-input
-                                    type="text"
-                                    placeholder='单位全称'
-                                    prefix-icon="el-icon-house"
-                                    v-model="register.userName"
-                                    clearable
-                                    autocomplete="off"
-                            >
-                            </el-input>
-                        </el-form-item>
+                    <el-form  :model="ruleForm" :rules="rules" ref="ruleForm" @keyup.enter.native="submitForm('ruleForm')" class="el-form login-form">
 <!--                        用户名-->
                         <el-form-item style="margin-left: 0px" prop="userName">
                             <el-input
                                     type="text"
                                     placeholder='用户名'
                                     prefix-icon="el-icon-user"
-                                    v-model="register.userName"
+                                    v-model="ruleForm.userName"
                                     clearable
                                     autocomplete="off"
                             >
@@ -38,20 +26,20 @@
                                     type="password"
                                     placeholder='密码'
                                     prefix-icon="el-icon-lock"
-                                    v-model="register.password"
+                                    v-model="ruleForm.password"
                                     autocomplete="off"
                                     :show-password="true"
                             >
                             </el-input>
                         </el-form-item>
+                        <span class="el-form-item__error" ref="tip2" style="display:none;color:#666;">密码安全等级：<span ref="level2"></span></span>
 <!--                        再次输入密码-->
-                        <el-form-item style="margin-left: 0px" prop="password">
+                        <el-form-item style="margin-left: 0px" prop="password2">
                             <el-input
-                                    @change="examine"
                                     type="password"
                                     placeholder='确认密码'
                                     prefix-icon="el-icon-lock"
-                                    v-model="register.password2"
+                                    v-model="ruleForm.password2"
                                     autocomplete="off"
                                     :show-password="true"
                             >
@@ -66,24 +54,23 @@
                                             maxlength="4"
                                             placeholder='请输入验证码'
                                             prefix-icon="el-icon-position"
-                                            v-model="register.code"
+                                            v-model="ruleForm.code"
                                             clearable
                                             autocomplete="off"
                                     ></el-input>
                                 </div>
+<!--                                验证码-->
                                 <div class="el-col el-col-8">
-                                    <div class="login-code">
-                                        <span class="login-code-img">1234</span>
+                                    <div class="login-code" @click="refreshCode">
+                                        <SIdentify :identifyCode="identifyCode" class="login-code-img"></SIdentify>
                                     </div>
                                 </div>
                             </div>
                         </el-form-item>
-<!--                        出现两次密码不一致-->
-                        <span v-show="state" id="msg" style="color: red">两次密码不一致</span>
 
 <!--                        注册按钮-->
-                        <el-form-item style="margin: 40px 0px 0">
-                            <el-button type="primary" class="login-submit" @click="submitForm" id="btn-register">
+                        <el-form-item style="margin: 0px">
+                            <el-button type="primary" class="login-submit" @click="submitForm('ruleForm')">
                                 <span>注 册</span>
                             </el-button>
                         </el-form-item>
@@ -101,37 +88,119 @@
 
 <script>
 
+import {post} from "../../../utils/request";
+import SIdentify from "@/utils/identify";   //验证码组件
+
 export default {
+
   name: 'Register',
+    components: {
+        SIdentify: SIdentify
+    },
     data() {
-      return{
+        // //用户名输入规则
+        // let validUsername = (rule, value, callback) => {
+        //     alert(value)
+        //     if(value === undefined || value === ''){
+        //         callback(new Error('用户名不能为空！'));
+        //     }
+        // };
+
+        //重复密码规则
+        let validatePass2 = (rule, value, callback) => {
+            if(value === ''){
+                callback(new Error('请再次输入密码！'));
+            }else if(value!==this.ruleForm.password){
+                callback(new Error('两次密码不一致！'));
+            }else {
+                callback()
+            }
+        };
+        //验证验证码
+        let validCode = (rule, value, callback) => {
+
+            if(value === undefined || value === ''){
+                callback(new Error('请输入验证码！'));
+            }else if(value.toLowerCase()!==this.identifyCode.toLowerCase()){
+                callback(new Error('验证码不正确！'));
+            }else {
+                callback()
+            }
+        };
+        //密码规则
+        let validatePass = (rule, value, callback) => {
+           if (value === '') {
+               callback(new Error('请输入密码！'));
+           }else {
+               callback()
+           }
+        };
+
+        return{
+            identifyCode:"",      //真实验证码
+            identifyCodes:'abcdefghijklnmopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',     //验证码库
+            state:false,
           //注册信息
-          register:{
+            ruleForm:{
               userName:'',
               password:'',
               password2:'',
               telephone:'',
               code: '',
           },
-          state:false
+          rules: {
+              userName: [
+                  { required: true, message:'请输入用户名！', trigger: ["blur",'change'] }
+              ],
+              password: [
+                  { required: true, validator: validatePass, trigger: ["blur",'change'] }
+              ],
+              password2: [
+                  { required: true, validator: validatePass2, trigger: ["blur",'change'] }
+              ],
+              code: [
+                  { required: true, validator: validCode, trigger: ["blur",'change'] }
+              ],
+          },
+
+
       }
     },
     methods: {
-        submitForm() {
-
+        submitForm(ruleForm) {
+            //提交表单时校验
+            this.$refs[ruleForm].validate(valid => {
+                if (valid) {
+                    post('stu/change',this.ruleForm)
+                } else {
+                    //更新验证码
+                    this.refreshCode()
+                    return false
+                }
+            })
         },
-        examine(){
-            if(this.register.password!=this.register.password2){
-                this.state=true
-                document.getElementById('btn-register').disabled=true;
-                document.getElementById('btn-register').style.backgroundColor = "rgba(70,69,69,0.66)";
-            }else {
-                this.state=false
-                document.getElementById('btn-register').disabled=false;
-                document.getElementById('btn-register').style.backgroundColor = "rgba(64, 158, 255, 0.8)";
+        //验证码
+        randomNum(min, max) {
+            return Math.floor(Math.random() * (max - min) + min);
+        },
+        refreshCode() {
+            this.identifyCode = "";
+            this.makeCode(this.identifyCodes, 4);
+        },
+        makeCode(o, l) {
+            for (let i = 0; i < l; i++) {
+                this.identifyCode += this.identifyCodes[
+                    this.randomNum(0, this.identifyCodes.length)
+                    ];
             }
-        }
-    }
+        },
+
+    },
+    mounted() {
+        //验证码
+        this.identifyCode = "";
+        this.makeCode(this.identifyCodes, 4);
+    },
 }
 </script>
 

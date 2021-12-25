@@ -14,15 +14,18 @@
             </el-table-column>
             <el-table-column
                     label="标题"
-                    prop="title">
+                    prop="title"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="类别"
-                    prop="category">
+                    prop="category"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="发布人"
-                    prop="writer">
+                    prop="writer"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="发布时间"
@@ -30,7 +33,8 @@
             </el-table-column>
             <el-table-column
                     label="内容"
-                    prop="content">
+                    prop="content"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
         </el-table>
         <br>

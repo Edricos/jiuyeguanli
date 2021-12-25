@@ -96,6 +96,7 @@
             this.$router.push('/student/history')
         },
         exit(){
+          window.localStorage.removeItem('AuthorizationStudent');
           this.$router.push('/')
         }
 

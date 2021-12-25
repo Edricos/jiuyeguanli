@@ -10,7 +10,8 @@
         </el-table-column>
         <el-table-column
                 label="标题"
-                prop="title">
+                prop="title"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="时间"
@@ -18,7 +19,8 @@
         </el-table-column>
         <el-table-column
                 label="地点"
-                prop="addr">
+                prop="addr"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="状态"

@@ -8,7 +8,7 @@
                     <img :src="userImg" />
                     <div class="userinfo">
                         <p class="name">Admin</p>
-                        <p class="access">超级管理员</p>
+                        <p class="access">管理员</p>
                     </div>
                 </div>
                 <div class="login-info">

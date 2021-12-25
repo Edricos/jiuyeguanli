@@ -2,7 +2,6 @@
     <div class="main">
         <el-table
                 :data="tableData.filter(data => {
-                data.content=data.content.slice(0,6)
                 return !search ||
             JSON.stringify(data).toLowerCase().includes(search.toLowerCase())})"
                 style="width: 100%"
@@ -14,15 +13,18 @@
             </el-table-column>
             <el-table-column
                     label="标题"
-                    prop="title">
+                    prop="title"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="类别"
-                    prop="category">
+                    prop="category"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="发布者"
-                    prop="announcer">
+                    prop="announcer"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="发布时间"
@@ -30,7 +32,8 @@
             </el-table-column>
             <el-table-column
                     label="内容"
-                    prop="content">
+                    prop="content"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
 
 

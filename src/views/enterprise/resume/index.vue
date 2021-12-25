@@ -11,19 +11,23 @@
         </el-table-column>
         <el-table-column
                 label="姓名"
-                prop="stu.name">
+                prop="stu.name"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="学校"
-                prop="stu.school">
+                prop="stu.school"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="专业"
-                prop="stu.major">
+                prop="stu.major"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="自我简介"
-                prop="stu.resume">
+                prop="stu.resume"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="审核状态"

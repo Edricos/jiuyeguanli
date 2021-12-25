@@ -4,7 +4,7 @@ import router from './router/index';
 import Particles from 'vue-particles';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import VueCookies from 'vue-cookies';
+import Cookies from 'vue-cookies';
 
 // import axios from 'axios';//通过import引入
 
@@ -13,7 +13,8 @@ import App from './App.vue'
 
 Vue.use(Particles);
 Vue.use(ElementUI);
-Vue.use(VueCookies);
+Vue.prototype.$cookie = Cookies;
+
 
 
 Vue.config.productionTip = false

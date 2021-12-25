@@ -4,11 +4,12 @@
       <el-button plain icon="el-icon-menu" size="mini" @click="handleMenu"></el-button>
       <el-breadcrumb>
 <!--        回到首页时需要刷新页面-->
-        <el-breadcrumb-item :to="{ path: '/enterprise' }">首页</el-breadcrumb-item>
-          <!--        没有发挥作用-->
-<!--        <el-breadcrumb-item :to="current.path" v-if="current">-->
-<!--          {{current.label}}-->
+        <el-breadcrumb-item :to="{ path: '/enterprise'}">首页</el-breadcrumb-item>
+          <!--        面包屑功能-->
+<!--        <el-breadcrumb-item :to="{ path: enterpriseCurrent.path }" v-if="enterpriseCurrent">-->
+<!--            {{enterpriseCurrent.label}}-->
 <!--        </el-breadcrumb-item>-->
+
       </el-breadcrumb>
     </div>
     <div>
@@ -27,6 +28,8 @@
 
 <script>
 
+import {mapState} from "vuex";
+
 export default {
     data() {
         return {
@@ -41,10 +44,14 @@ export default {
           this.$router.push('/enterprise/info')
         },
         exit(){
-          this.$cookies.remove('JSESSIONID')
+          window.localStorage.removeItem('AuthorizationEnterprise');
           this.$router.push('/')
         }
-  }
+  },
+    computed:{
+    //    映射store变量
+        ...mapState(['enterpriseCurrent'])
+    }
 }
 </script>
 

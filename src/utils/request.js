@@ -25,6 +25,23 @@ axios.defaults.withCredentials = true
 import { Toast } from 'vant';
 import router from "../router";
 import store from '../store/index'
+import { Message } from 'element-ui' //ui提示框架
+
+function Messages(){
+    Message({
+        showClose: true,
+        message: '请登入',
+        type: 'error',
+        duration: 1000 })
+}
+
+function MessagesOver(){
+    Message({
+        showClose: true,
+        message: '登录已过期，请重新登入！',
+        type: 'warning',
+        duration: 1000 })
+}
 
 // 环境的切换
 // if (process.env.NODE_ENV == 'development') {
@@ -55,8 +72,12 @@ router.beforeEach((to, from, next) => {
         if(mainPath[1]=='student'){
             let token = localStorage.getItem('AuthorizationStudent');
             if (token === null || token === '') {
-                alert('请登入')
-                next('/login');
+                // //提示登入
+                // Messages()
+                router.push({
+                    name: 'login',
+                    params: { redirect: to.path }
+                });
             } else {
                 store.state.Authorization = token
                 next();
@@ -64,8 +85,12 @@ router.beforeEach((to, from, next) => {
         }else if(mainPath[1]=='teacher') {
             let token = localStorage.getItem('AuthorizationTeacher');
             if (token === null || token === '') {
-                alert('请登入')
-                next('/login');
+                // //提示登入
+                // Messages()
+                router.push({
+                    name: 'login',
+                    params: { redirect: to.path }
+                });
             } else {
                 store.state.Authorization = token
                 next();
@@ -73,8 +98,12 @@ router.beforeEach((to, from, next) => {
         }else{
             let token = localStorage.getItem('AuthorizationEnterprise');
             if (token === null || token === '') {
-                alert('请登入')
-                next('/login');
+                // //提示登入
+                // Messages()
+                router.push({
+                    name: 'login',
+                    params: { redirect: to.path }
+                });
             } else {
                 store.state.Authorization = token
                 next();
@@ -85,16 +114,18 @@ router.beforeEach((to, from, next) => {
 
 // 请求拦截器(添加token)
 axios.interceptors.request.use(
+
     config => {
-        // Authorization
         if (store.state.Authorization) {
-
-            config.headers['token'] =store.state.Authorization
-            config.withCredentials=true;
-                // config.headers.Authorization = store.state.Authorization;
+            //通过头部传递token
+            // config.headers.common['token'] =store.state.Authorization
             // store.state.Authorization=''
-        }
 
+            //用cookie实现token传递
+            let token = store.state.Authorization;
+            document.cookie="token="+token;
+            store.state.Authorization='';
+        }
         return config;
     },
     error => {
@@ -104,7 +135,6 @@ axios.interceptors.request.use(
 // 响应拦截器
 axios.interceptors.response.use(
     response => {
-        console.log('正确拦截器')
         if (response.status === 200) {
             return Promise.resolve(response);
         } else {
@@ -113,15 +143,13 @@ axios.interceptors.response.use(
     },
     // 服务器状态码不是200的情况
     error => {
-        console.log(error.message+'错误拦截器')
-
         if (error.response.status==401) {
-            this.$router.replace({
-                            path: '/login',
-                            query: { redirect: router.currentRoute.fullPath }
-                        });
-
-            alert('登入过期，请重新登入')
+            router.push({
+                name: 'login',
+                params: { redirect: router.currentRoute.fullPath }
+            });
+            //提示重新登录
+            MessagesOver()
             // switch (error.response.status) {
             //     // 401: 未登录或token过期
             //     // 未登录则跳转登录页面，并携带当前页面的路径

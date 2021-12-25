@@ -30,46 +30,55 @@ export default {
       Collapse:false,
       menu: [
         {
+          path: "/teacher",
           name: "home-teacher",
           label: "首页",
           icon: "s-home",
         },
         {
+            path: "/teacher/enterprise",
           name: "enterprise-teacher",
           label: "单位审核",
           icon: "s-promotion",
         },
         {
+            path: "/teacher/news",
               name: "news-teacher",
               label: "热点新闻",
               icon: "reading",
         },
         {
+            path: "/teacher/announcement",
           name: "announcement-teacher",
           label: "公告发布",
           icon: "notebook-2",
         },
           {
+              path: "/teacher/recruit",
               name: "recruit-teacher",
               label: "招聘发布",
               icon: "user",
           },
           {
+              path: "/teacher/preach",
               name: "preach-teacher",
               label: "宣讲发布",
               icon: "edit-outline",
           },
           {
+              path: "/teacher/sign",
               name: "sign-teacher",
               label: "签约信息",
               icon: "edit-outline",
           },
           {
+              path: "/teacher/receipt",
               name: "receipt-teacher",
               label: "入校审批",
               icon: "edit-outline",
           },
           {
+              path: "/teacher/jobFair",
               name: "jobFair-teacher",
               label: "招聘会发布",
               icon: "edit-outline",
@@ -80,10 +89,10 @@ export default {
   methods: {
     clickMenu(item) {
       // this.$router.push({ name:'home-enterprise'});
-       this.$router.push({ name: item.name });
        if(item.label==='发起签约'){
-           console.log('88888')
            location.href="https://account.chsi.com.cn/passport/login?service=https%3A%2F%2Fwq.ncss.cn%2Fcorp%2Fj_spring_cas_security_check"
+       }else {
+           this.$router.push({ name: item.name });
        }
     },
   },

@@ -49,15 +49,18 @@
             </el-table-column>
             <el-table-column
                     label="单位全称"
-                    prop="comname">
+                    prop="comname"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="标题"
-                    prop="title">
+                    prop="title"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="负责人"
-                    prop="principal">
+                    prop="principal"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="电话"

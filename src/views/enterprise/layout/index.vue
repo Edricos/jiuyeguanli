@@ -29,6 +29,7 @@ export default {
 <style scoped>
 
 .el-header {
+  /*原背景色*/
   background: #333;
 }
 .el-main {

@@ -9,11 +9,13 @@
             </el-table-column>
             <el-table-column
                     label="单位全称"
-                    prop="comname">
+                    prop="comname"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="标题"
-                    prop="preachname">
+                    prop="preachname"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="招聘时间"
@@ -21,27 +23,27 @@
             </el-table-column>
             <el-table-column
                     label="招聘地点"
-                    prop="addr">
+                    prop="addr"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="状态"
                     prop="status">
             </el-table-column>
 
-<!--            <el-table-column>-->
-<!--                &lt;!&ndash;            定义输入框&ndash;&gt;-->
-<!--                <template slot="header">-->
-<!--                   操作-->
-<!--                </template>-->
-<!--                &lt;!&ndash;            定义按钮&ndash;&gt;-->
-<!--                <template slot-scope="scope">-->
+            <el-table-column>
 
-<!--                    <el-button-->
-<!--                            size="mini"-->
-<!--                            type="danger"-->
-<!--                            @click="handleDelete(scope.$index, scope.row)">撤回</el-button>-->
-<!--                </template>-->
-<!--            </el-table-column>-->
+            <template slot-scope="scope">
+<!--                审核通过有签约按钮-->
+            <el-button
+                    v-if="scope.row.status=='pass'"
+                    size="mini"
+                    type="success"
+                    @click="sign">签约</el-button>
+            </template>
+
+            </el-table-column>
+
         </el-table>
         <br><br><br><br><br>
     </div>
@@ -62,7 +64,12 @@ export default {
             search: ''
         }
     },
-
+    methods:{
+        //签约
+        sign() {
+            location.href="https://account.chsi.com.cn/passport/login?service=https%3A%2F%2Fwq.ncss.cn%2Fstudent%2Fj_spring_cas_security_check"
+        }
+    },
     mounted(){
         //请求数据
         const this_=this

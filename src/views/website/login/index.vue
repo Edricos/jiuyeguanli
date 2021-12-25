@@ -25,8 +25,9 @@
 <!--                    标题-->
                     <h4 class="login-title">就业管理系统</h4>
 <!--                    表单-->
-                    <el-form class="el-form login-form">
-                        <el-form-item style="margin-left: 0px" prop="userName">
+                    <el-form :model="ruleForm" :rules="rules" ref="ruleForm" @keyup.enter.native="submitForm('ruleForm')" class="el-form login-form">
+<!--                        用户名-->
+                        <el-form-item style="margin-left: 0px" prop="username">
                             <el-input
                                     type="text"
                                     placeholder='用户名: admin'
@@ -37,6 +38,7 @@
                             >
                             </el-input>
                         </el-form-item>
+<!--                        密码-->
                         <el-form-item style="margin-left: 0px" prop="password">
                             <el-input
                                     type="password"
@@ -48,6 +50,7 @@
                             >
                             </el-input>
                         </el-form-item>
+<!--                        验证码-->
                         <el-form-item style="margin-left: 0px;margin-bottom: 0px;" prop="code">
                             <div class="el-row" span="24">
                                 <div class="el-col el-col-16">
@@ -68,16 +71,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <div style="padding: 0;margin: 0;font-size: 3px;height:10px;line-height:10px">
-                                <p v-show="showCode" style="color: red">验证码有误</p>
-                            </div>
                         </el-form-item>
-
-                        <el-form-item style="margin: 20px 0px 0">
+<!--                        登入按钮-->
+                        <el-form-item style="margin: 30px 0px 0">
                             <div style="padding: 0;margin-bottom: 3px;font-size: 3px;height:10px;line-height:10px">
                                 <p v-show="showError" style="color: red">用户名或密码错误！</p>
                             </div>
-                            <el-button type="primary" class="login-submit" @click="submitForm" :loading="submit.loading">
+                            <el-button type="primary" class="login-submit" @click="submitForm('ruleForm')" :loading="submit.loading">
                                 <span>登 录</span>
                             </el-button>
                         </el-form-item>
@@ -110,11 +110,22 @@ export default {
         SIdentify: SIdentify
     },
     data() {
+        //验证验证码
+        let validCode = (rule, value, callback) => {
+
+            if(value === undefined || value === ''){
+                callback(new Error('请输入验证码！'));
+            }else if(value.toLowerCase()!==this.identifyCode.toLowerCase()){
+                callback(new Error('验证码不正确！'));
+            }else {
+                callback()
+            }
+        };
+
       return{
           userToken:'',         //存储token
-          showCode:false,       //展示验证码错误
-          showError:false,
-          quotationsList,
+          showError:false,      //展示账号密码错误
+          quotationsList,       //语录列表
           quotations: {},
           identifyCode:"",      //真实验证码
           identifyCodes:'abcdefghijklnmopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ',     //验证码库
@@ -126,9 +137,25 @@ export default {
               password: '',
               code:''
           },
+          transition:{
+            teacher:'教师',
+            enterprise:'企业',
+            student:'学生'
+          },
           time: {
               txt: '',
               fun: null,
+          },
+          rules: {
+              username: [
+                  { required: true, message:'请输入用户名！', trigger: ["blur",'change'] }
+              ],
+              password: [
+                  { required: true, message:'请输入密码！', trigger: ["blur",'change'] }
+              ],
+              code: [
+                  { required: true, validator: validCode, trigger: ["blur",'change'] }
+              ],
           },
       }
     },
@@ -147,47 +174,121 @@ export default {
             }, 1000);
         },
         // 登录按钮点击
-         submitForm() {
-            //验证验证码是否正确
-            if(this.identifyCode.toUpperCase()!=this.ruleForm.code.toUpperCase()){
-                this.showCode=true
-                return
-            }else {
-                this.showCode=false
-            }
-            // 提交表单数据
-            const this_=this
-             const account=post('/user/login',this.ruleForm)
-             account.then(
-                 function (res){
-                     // this_.userToken = 'Bearer ' + res.data.data.body.token;
-                     // // 将用户token保存到vuex中
-                     // this_.changeLogin({ Authorization: this_.userToken });
+         submitForm(ruleForm) {
+             //提交表单时校验
+             this.$refs[ruleForm].validate(valid => {
+                 //全部校验成功后提交数据
+                 if (valid) {
+                     // 提交表单数据
+                     const this_=this
+                     const account=post('/user/login',this.ruleForm)
+                     account.then(
+                         function (res){
+                             // this_.userToken = 'Bearer ' + res.data.data.body.token;
+                             // // 将用户token保存到vuex中
+                             // this_.changeLogin({ Authorization: this_.userToken });
+                             // 传过来的参数
+                             const path=this_.$route.params.redirect
+
+                             if(res.account===undefined) {
+                                 //更新验证码
+                                 this_.refreshCode()
+                                 this_.showError=true
+                             }else if(res.account.classs=='inc'){
+                                 console.log('企业端')
+
+                                 //验证目标地址是否为企业端
+                                 const mainPath = this_.$route.params.redirect.split('/');
+                                 if(mainPath[1]!=='enterprise')
+                                 {
+                                     //重新传参到登录页面
+                                     this_.$router.push({
+                                         name:'login',
+                                         params: { redirect: path}
+                                     })
+                                     //提示用某端账号登入
+                                     alert('请用'+this_.transition[mainPath[1].toString()]+'账号登录!')
+                                     return
+                                 }
 
 
-                     if(res.account.classs=='inc'){
-                         console.log('企业端')
-                         this_.userToken=res.token
-                         this_.changeLoginEnterprise({ AuthorizationEnterprise: this_.userToken });
-                         this_.$router.push("/enterprise")
-                     }else if(res.account.classs=='admin'){
-                         console.log('教师端')
-                         this_.userToken=res.token
-                         this_.changeLoginTeacher({ AuthorizationTeacher: this_.userToken });
-                         this_.$router.push("/teacher")
-                     }else if(res.account.classs=='stu'){
-                         console.log('学生端')
-                         this_.userToken=res.token
-                         this_.changeLoginStudent({ AuthorizationStudent: this_.userToken });
-                         this_.$router.push("/student")
-                     }else {
-                         console.log('账号密码错误')
-                         this_.showError=true
-                         return
-                     }
+                                 this_.userToken=res.token
+                                 this_.changeLoginEnterprise({ AuthorizationEnterprise: this_.userToken });
+                                 //跳转页面
+                                 if(this_.$route.params.redirect){
+                                     this_.$router.push(this_.$route.params.redirect)
+                                 }else
+                                 {
+                                     this_.$router.push("/enterprise")
+                                 }
+                             }else if(res.account.classs=='admin'){
+                                 //存储token
+                                 console.log('教师端')
+
+                                 //验证目标地址是否为企业端
+                                 const mainPath = this_.$route.params.redirect.split('/');
+                                 if(mainPath[1]!=='teacher')
+                                 {
+                                     //刷新页面
+                                     // location.reload();
+                                     //重新传参到登录页面
+                                     this_.$router.push({
+                                         name:'login',
+                                         params: { redirect: path }
+                                     })
+                                     //提示用某端账号登入
+                                     // alert('请用'+mainPath[1].toString()+'账号登录!')
+                                     alert('请用'+this_.transition[mainPath[1].toString()]+'账号登录!')
+                                     return
+                                 }
+
+                                 this_.userToken=res.token
+                                 this_.changeLoginTeacher({ AuthorizationTeacher: this_.userToken });
+                                 //跳转页面
+                                 if(this_.$route.params.redirect){
+                                     this_.$router.push(this_.$route.params.redirect)
+                                 }else
+                                 {
+                                     this_.$router.push('/teacher')
+                                 }
+                             }else if(res.account.classs=='stu'){
+                                 console.log('学生端')
+
+                                 //验证目标地址是否为企业端
+                                 const mainPath = this_.$route.params.redirect.split('/');
+                                 if(mainPath[1]!=='student')
+                                 {
+                                     //刷新页面
+                                     // location.reload();
+                                     //重新传参到登录页面
+                                     this_.$router.push({
+                                         name:'login',
+                                         params: { redirect: path }
+                                     })
+                                     //提示用某端账号登入
+                                     // alert('请用'+mainPath[1].toString()+'账号登录!')
+                                     alert('请用'+this_.transition[mainPath[1].toString()]+'账号登录!')
+                                     return
+                                 }
+
+                                 this_.userToken=res.token
+                                 this_.changeLoginStudent({ AuthorizationStudent: this_.userToken });
+                                 //跳转页面
+                                 if(this_.$route.params.redirect){
+                                     this_.$router.push(this_.$route.params.redirect)
+                                 }else
+                                 {
+                                     this_.$router.push("/student")
+                                 }
+                             }
+                         }
+                     )
+                 } else {
+                     //更新验证码
+                     this.refreshCode()
+                     return false
                  }
-             )
-
+             })
         },
         //注册
         registers(){

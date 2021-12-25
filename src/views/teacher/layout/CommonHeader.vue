@@ -37,7 +37,7 @@ export default {
       this.$store.commit("collapseMenu");
     },
         exit(){
-            this.$cookies.remove('JSESSIONID')
+            window.localStorage.removeItem('AuthorizationTeacher');
             this.$router.push('/')
         }
   }

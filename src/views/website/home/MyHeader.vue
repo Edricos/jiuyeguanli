@@ -37,12 +37,12 @@
         </el-menu-item>
 
         <!--        老师导航栏-->
-        <el-menu-item @click="login" index="4" style="float:right;">
+        <el-menu-item @click="teacher" index="4" style="float:right;">
             老师
         </el-menu-item>
-        <el-menu-item @click="login" index="" style="float:right;">
+        <el-menu-item @click="enterprise" index="" style="float:right;">
             企业
-        </el-menu-item><el-menu-item @click="login" index="2" style="float:right;">
+        </el-menu-item><el-menu-item @click="student" index="2" style="float:right;">
         学生
     </el-menu-item><el-menu-item @click="refresh" index="1" style="float:right;">
         首页
@@ -65,10 +65,23 @@
       handleSelect(key, keyPath) {
         // console.log(key, keyPath)
       },
+        //跳转到登录页
         login(){
-          this.$router.push('/login')
-            // window.location = "http://47.100.38.130:8082/toLogin";
+            this.$router.push('/login')
         },
+        //跳转到教师端
+        teacher(){
+          this.$router.push('/teacher')
+        },
+        //跳转到企业端
+        enterprise(){
+            this.$router.push('/enterprise')
+        },
+        //跳转到学生端
+        student(){
+            this.$router.push('/student')
+        },
+        //刷新
         refresh(){
             window.location.reload();
         }

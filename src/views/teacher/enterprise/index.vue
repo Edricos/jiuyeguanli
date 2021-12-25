@@ -49,19 +49,23 @@
             </el-table-column>
             <el-table-column
                     label="单位全称"
-                    prop="name">
+                    prop="name"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="社会统一信用代码"
-                    prop="unicode">
+                    prop="unicode"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="地址"
-                    prop="addr">
+                    prop="addr"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="单位介绍"
-                    prop="intro">
+                    prop="intro"
+                    :show-overflow-tooltip='true'>
             </el-table-column>
             <el-table-column
                     label="状态"

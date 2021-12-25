@@ -10,15 +10,18 @@
         </el-table-column>
         <el-table-column
                 label="姓名"
-                prop="name">
+                prop="name"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="学校"
-                prop="school">
+                prop="school"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="专业"
-                prop="major">
+                prop="major"
+                :show-overflow-tooltip='true'>
         </el-table-column>
         <el-table-column
                 label="录取时间"

@@ -7,12 +7,12 @@
                 <div class="user" >
                     <img :src="userImg" />
                     <div class="userinfo">
-                        <p class="name">Admin</p>
-                        <p class="access">超级管理员</p>
+                        <p class="name">{{form.charger}}</p>
+                        <p class="access">管理员</p>
                     </div>
                 </div>
                 <div class="login-info">
-                    <p>上次登录时间：<span>2021-12-4</span></p>
+                    <p>上次登录时间：<span>2021-12-24</span></p>
                     <p>上次登录地点：<span>南昌</span></p>
                 </div>
             </el-card>
@@ -61,6 +61,7 @@
     import MyBar from './MyBar'
     import MyPie from './MyPie'
     import MyLine from './MyLine'
+    import {post} from "../../../utils/request";
     export default {
         //注册可视化图表组件
         components:{
@@ -72,7 +73,7 @@
             return {
                 userImg: require("@/assets/user.png"),
                 //左下角图表
-                tableData: [],
+                form: [],
 
                 countData: [
                     {
@@ -97,6 +98,17 @@
 
             };
         },
+        mounted(){
+            //获取企业详细信息
+            const this_=this
+            const content=post('/inc/prechange')
+            content.then(
+                function (res){
+                    console.log(res)
+                    this_.form=res
+                }
+            )
+        }
     };
 </script>
 

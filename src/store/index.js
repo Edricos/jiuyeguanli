@@ -20,10 +20,22 @@ const store = new Vuex.Store({
 
     state: {
         // 存储token
-        Authorization:'999',
+        Authorization:'',
         AuthorizationStudent: localStorage.getItem('AuthorizationStudent') ? localStorage.getItem('AuthorizationStudent') : '',
         AuthorizationTeacher: localStorage.getItem('AuthorizationTeacher') ? localStorage.getItem('AuthorizationTeacher') : '',
-        AuthorizationEnterprise: localStorage.getItem('AuthorizationEnterprise') ? localStorage.getItem('AuthorizationEnterprise') : ''
+        AuthorizationEnterprise: localStorage.getItem('AuthorizationEnterprise') ? localStorage.getItem('AuthorizationEnterprise') : '',
+        studentCurrent: {
+            path:'',
+            label:'',
+        },
+        teacherCurrent:  {
+            path:'',
+            label:'',
+        },
+        enterpriseCurrent: {
+            path:'',
+            label:'',
+        },
     },
 
     mutations: {
